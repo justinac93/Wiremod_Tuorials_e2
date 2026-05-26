@@ -1,0 +1,59 @@
+@name Forcefield Controller
+@inputs Valid Field:entity
+@persist LastShock:table HumPlaying
+
+if (first()) {
+    LastShock = table()
+    HumPlaying = 0
+}
+
+event tick() {
+
+    # Forcefield OFF
+    if (Valid) {
+
+        if (HumPlaying) {
+            soundStop(1)
+            HumPlaying = 0
+        }
+
+    } else {
+
+        # Start hum only once
+        if (!HumPlaying) {
+
+            soundPlay(
+                1,
+                0,
+                "hl1/ambience/labdrone2.wav"
+            )
+
+            HumPlaying = 1
+        }
+
+        foreach(_:number, P:entity = players()) {
+
+            if (P:pos():distance(Field:pos()) <= 60) {
+
+                if (!LastShock:exists(P:id())) {
+                    LastShock[P:id(),number] = 0
+                }
+
+                if (LastShock[P:id(),number] < curtime()) {
+
+                    LastShock[P:id(),number] =
+                        curtime() + 0.5
+
+                    P:takeDamage(5)
+
+                    # Zap each shock
+                    soundPlay(
+                        2,
+                        0,
+                        "ambient/energy/zap1.wav"
+                    )
+                }
+            }
+        }
+    }
+}
