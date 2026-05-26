@@ -1,0 +1,18 @@
+@name Text_to_Screen
+@inputs Key:string 
+@outputs OutputChar:string 
+@persist OutputChar:string 
+
+
+if (first()) 
+    {
+        OutputChar = ""
+    }
+if (Key == "-") 
+    {
+        OutputChar = OutputChar:sub(1, OutputChar:length() - 1)
+    }
+if (Key != "" & Key != "-") 
+    {
+        OutputChar = OutputChar + Key        
+    }
