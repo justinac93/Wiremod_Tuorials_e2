@@ -1,0 +1,60 @@
+@name rgb light
+@inputs Button_1 Button_2
+@outputs Color:vector On Brightness:number 
+@persist State_1 State_2 
+
+
+
+# This runs only the very first time the E2 executes
+if (first()) {
+    State_1 = 0
+    State_2 = 0   # initialize State here
+}
+
+# Check if Button just changed from 0  1
+if (~Button_1 & Button_1) {
+    State_1 = (State_1 + 1) % 6
+}
+if (~Button_2 & Button_2) {
+    State_2 = (State_2 + 1) % 4
+}
+
+# Set color outputs based on State
+if (State_1 == 0) {
+    Color = vec(255, 0, 0)
+    On    = 1
+}
+elseif (State_1 == 1) {
+    Color = vec(0, 255, 0)
+    On    = 1
+}
+elseif (State_1 == 2) {
+    Color = vec(0, 0, 255)
+    On    = 1
+}
+elseif (State_1 == 3) {
+    Color = vec(255, 255, 255)
+    On    = 1
+}
+elseif (State_1 == 4) {
+    Color = vec(255, 0, 255)
+    On    = 1
+}
+else {
+    Color = vec(0, 0, 0)
+    On    = 0
+}
+
+# Set brightness outputs based on State
+if (State_2 == 0) {
+    Brightness = 3
+} 
+elseif (State_2 == 1) {
+    Brightness = 5
+}
+elseif (State_2 == 2) {
+    Brightness = 8
+}
+else {
+    Brightness = 1
+}
